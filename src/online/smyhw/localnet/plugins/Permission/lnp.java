@@ -1,5 +1,7 @@
 package online.smyhw.localnet.plugins.Permission;
 
+import java.io.File;
+
 import online.smyhw.localnet.message;
 import online.smyhw.localnet.command.cmdManager;
 import online.smyhw.localnet.data.DataManager;
@@ -17,22 +19,16 @@ public class lnp
 		try 
 		{
 			cmdManager.add_cmd("pm", lnp.class.getMethod("cmd", new Class[]{Client_sl.class,String.class}));
-			EventManager.AddListener("ChatINFO", lnp.class.getMethod("lr", new Class[] {ChatINFO_Event.class}));
 		} 
 		catch (Exception e) 
 		{
 			message.warning("Permission插件加载错误!",e);
 		}
-		data.Groups = DataManager.LoadConfig("./configs/permission/groups.config");
-		data.Users = DataManager.LoadConfig("./configs/permission/users.config");
+		data.Groups = new File("./configs/permission/groups.config");
+		data.Users = new File("./configs/permission/users.config");
 	}
 	
 	public static void cmd(Client_sl User,String cmd)
-	{
-
-	}
-	
-	public static void lr(ChatINFO_Event dd)
 	{
 
 	}
