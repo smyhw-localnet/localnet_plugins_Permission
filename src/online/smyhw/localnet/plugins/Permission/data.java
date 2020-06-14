@@ -22,7 +22,18 @@ public class data
 	
 	public static List getGroupPermission(String GroupName)
 	{
-		ArrayList<String> re = new ArrayList();
+		return ReadPermission(Groups,GroupName);
+	}
+	
+	public static List<String> getUserPermission(String UserName)
+	{
+		return ReadPermission(Users,UserName);
+	}
+	
+	//负责从文件中读取对应的权限列表
+	public static List<String> ReadPermission(File file,String GroupName)
+	{
+		List<String> re = new ArrayList<String>();
 		try 
 		{
 			BufferedReader reader = new BufferedReader(new FileReader(Groups));
@@ -30,6 +41,9 @@ public class data
 			{
 				String temp1 = reader.readLine();
 				if(temp1==null) {break;}
+				//排除注释
+				if(temp1.startsWith("//")) {continue;}
+				if(temp1.startsWith("#")) {continue;}
 				if(temp1.equals(GroupName+":"))
 				{//读取到正确的组
 					while(true)
@@ -51,21 +65,7 @@ public class data
 		return re;
 	}
 	
-	public static List getUserPermission(String UserName)
-	{
-		ArrayList re = new ArrayList();
-		try 
-		{
-			BufferedReader reader = new BufferedReader(new FileReader(Users));
-		}
-		catch (FileNotFoundException e) 
-		{
-			message.warning("读取权限文件出错", e);
-		}
-		return re;
-	}
-	
-	
+	//负责解析权限列表中的特殊节点
 	public static List<String> getPermissionList(List<String> PermissionString)
 	{
 		List<String> re = new ArrayList<String>();
