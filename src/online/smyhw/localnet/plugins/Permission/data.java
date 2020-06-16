@@ -15,10 +15,6 @@ public class data
 {
 	public static File Groups;
 	public static File Users;
-	public static List getFinalPermission(String User)
-	{
-		return new ArrayList();
-	}
 	
 	public static List getGroupPermission(String GroupName)
 	{
