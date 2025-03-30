@@ -21,6 +21,22 @@ public class lnp
 		}
 		data.Groups = new File("./configs/permission/groups.config");
 		data.Users = new File("./configs/permission/users.config");
+		if(!data.Users.exists()){
+			try {
+				message.info("Permission-用户配置文件不存在，创建之...");
+				data.Users.createNewFile();
+			} catch (Exception e) {
+				message.warning("Permission插件创建用户配置文件失败!",e);
+			}
+		}
+		if(!data.Groups.exists()){
+			try {
+				message.info("Permission-用户组配置文件不存在，创建之...");
+				data.Groups.createNewFile();
+			} catch (Exception e) {
+				message.warning("Permission插件创建用户组配置文件失败!",e);
+			}
+		}
 	}
 	
 	public static void cmd(Client_sl User,String cmd)

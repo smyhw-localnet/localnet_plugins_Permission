@@ -40,21 +40,29 @@ public class data
 		List<String> re = new ArrayList<String>();
 		try 
 		{
-			BufferedReader reader = new BufferedReader(new FileReader(Groups));
+			BufferedReader reader = new BufferedReader(new FileReader(file));
 			while(true)
 			{
 				String temp1 = reader.readLine();
 				if(temp1==null) {break;}
+				temp1 = temp1.trim();
 				//排除注释
 				if(temp1.startsWith("//")) {continue;}
 				if(temp1.startsWith("#")) {continue;}
-				if(temp1.equals(GroupName+":"))
+				if(temp1.replace(" ","").equals(GroupName+":"))
 				{//读取到正确的组
 					while(true)
 					{//读取组权限内容
 						String temp2 = reader.readLine();
-						if(temp2==null || !temp2.startsWith("-")){break;}
-						re.add(temp2.substring(1));
+						if(temp2==null){break;}
+						temp2 = temp2.trim();
+						//排除注释
+						if(temp2.startsWith("//")) {continue;}
+						if(temp2.startsWith("#")) {continue;}
+						//跳过空行
+						if(temp2.isEmpty()) {continue;}
+						if(!temp2.startsWith("-")){break;}
+						re.add(temp2.substring(1).trim());
 					}
 					break;
 					//这里直接返回
@@ -65,6 +73,16 @@ public class data
 		catch (Exception e) 
 		{
 			message.warning("读取权限文件出错", e);
+		}
+		finally {
+			try {
+				if (file != null) {
+					BufferedReader reader = new BufferedReader(new FileReader(file));
+					reader.close();
+				}
+			} catch (Exception e) {
+				message.warning("关闭权限文件出错", e);
+			}
 		}
 		return re;
 	}
@@ -82,17 +100,13 @@ public class data
 				switch(temp2[0])
 				{
 				case "group"://继承其他权限组的全部权限
-				{
 					List<String> temp4 = ReadPermission(Groups,temp2[1]);
 					re.addAll(temp4);
-				}
-				continue;
+					continue;
 				case "player"://继承其他玩家的全部权限
-				{
-					List<String> temp4 = ReadPermission(Users,temp2[1]);
+					temp4 = ReadPermission(Users,temp2[1]);
 					re.addAll(temp4);
-				}
-				continue;
+					continue;
 				default://未知则不处理
 					continue;
 				}
@@ -100,6 +114,10 @@ public class data
 			//如果到这还没有continue，则表示这是个正常的权限节点文本
 			//将一般的权限节点文本加入最终列表
 			re.add(temp1);
+		}
+		//如果为空，返回default
+		if (re.isEmpty()){
+			re.addAll(ReadPermission(Users,"_dafault"));
 		}
 		//遍历完每一行后，返回
 		return re;

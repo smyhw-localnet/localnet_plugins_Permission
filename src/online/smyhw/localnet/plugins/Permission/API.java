@@ -10,7 +10,7 @@ public class API
 	 * @param ID 需要检查的终端ID
 	 * @return 有权限，返回true，否则返回false
 	 */
-	public boolean havePermission(String Permission,String ID)
+	public static boolean havePermission(String Permission,String ID)
 	{
 		List<String> pl = data.getUserPermission(ID);
 		return pl.contains(Permission);
@@ -21,7 +21,7 @@ public class API
 	 * @param ID 终端ID
 	 * @return 对应ID列表
 	 */
-	public List<String> getPermissionList(String ID)
+	public static List<String> getPermissionList(String ID)
 	{
 		List<String> pl = data.getUserPermission(ID);
 		return data.getUserPermission(ID);
