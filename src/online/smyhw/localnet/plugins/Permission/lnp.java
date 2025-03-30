@@ -24,6 +24,7 @@ public class lnp
 		if(!data.Users.exists()){
 			try {
 				message.info("Permission-用户配置文件不存在，创建之...");
+				data.Users.getParentFile().mkdirs();
 				data.Users.createNewFile();
 			} catch (Exception e) {
 				message.warning("Permission插件创建用户配置文件失败!",e);
@@ -32,6 +33,7 @@ public class lnp
 		if(!data.Groups.exists()){
 			try {
 				message.info("Permission-用户组配置文件不存在，创建之...");
+				data.Users.getParentFile().mkdirs();
 				data.Groups.createNewFile();
 			} catch (Exception e) {
 				message.warning("Permission插件创建用户组配置文件失败!",e);

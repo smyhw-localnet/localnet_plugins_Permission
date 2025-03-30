@@ -37,6 +37,7 @@ public class data
 	//该方法返回最终权限列表，因为返回时已经调用getPermissionList方法解释了特殊权限节点
 	public static List<String> ReadPermission(File file,String GroupName)
 	{
+		message.debug("读取选权限文件："+file.getAbsolutePath()+"   目标组名称："+GroupName);
 		List<String> re = new ArrayList<String>();
 		try 
 		{
@@ -68,6 +69,7 @@ public class data
 					//这里直接返回
 				}
 			}
+			message.debug("权限文件读取结果："+re);
 			return getPermissionList(re);//解释
 		}
 		catch (Exception e) 
@@ -117,7 +119,8 @@ public class data
 		}
 		//如果为空，返回default
 		if (re.isEmpty()){
-			re.addAll(ReadPermission(Users,"_dafault"));
+			message.debug("空权限，尝试使用默认权限");
+			re.addAll(ReadPermission(Users,"_default"));
 		}
 		//遍历完每一行后，返回
 		return re;

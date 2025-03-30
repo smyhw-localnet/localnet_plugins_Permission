@@ -23,7 +23,6 @@ public class API
 	 */
 	public static List<String> getPermissionList(String ID)
 	{
-		List<String> pl = data.getUserPermission(ID);
 		return data.getUserPermission(ID);
 	}
 
